@@ -1,0 +1,5 @@
+name: 'HTML PHP Mail'
+type: module
+description: 'Sends HTML using PHP'
+core: 8.x
+package: 'Alkaline'

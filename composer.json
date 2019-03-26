@@ -1,0 +1,14 @@
+{
+  "name": "bradtreloar/html_php_mail",
+  "type": "drupal-module",
+  "description": "Sends HTML using PHP",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.github.com/bradtreloar/drupal-html-php-mail",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.github.com/bradtreloar/drupal-html-php-mail/issues",
+    "source": "https://www.github.com/bradtreloar/drupal-html-php-mail.git"
+  },
+  "require": { }
+}
