@@ -2,8 +2,8 @@
 
 namespace Drupal\html_php_mail\Plugin\Mail;
 
+use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Mail\Plugin\Mail\PhpMail;
-use Drupal\Core\Mail\MailFormatHelper;
 
 /**
  * Provides a 'HtmlFormatterMail' mail plugin.
@@ -16,18 +16,34 @@ use Drupal\Core\Mail\MailFormatHelper;
  */
 class HtmlFormatterMail extends PhpMail {
 
-
   /**
    * {@inheritdoc}
    */
-  public function format(array $message) {
-    // Wrap each body section in a div while joining them into one string.
-    $body = "";
-    foreach($message['body'] as $section) {
-      $body .= "<div>$section</div>";
-    }
+  public function format(array $message): array {
 
-    $message['body'] = $body;
+    if ($message['module'] == 'contact') {
+      // @var \Drupal\contact\Entity\Message $contact_message
+      $contact_message = $message['params']['contact_message'];
+
+      $variables = [
+        'fields' => [
+          'Name' => $contact_message->getSenderName(),
+          'Message' => $contact_message->getMessage(),
+        ],
+      ];
+
+      // Set the MIME type for the message.
+      $message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed; delsp=yes';
+
+      // Replace message body with fields.
+      $template_file = drupal_get_path('module', 'html_php_mail') . '/templates/html-php-mail.html.twig';
+      $twig_service = \Drupal::service('twig');
+      $body = $twig_service->loadTemplate($template_file)->render($variables);
+      $message['body'] = new FormattableMarkup($body, []);
+    }
+    else {
+      $message = parent::format($message);
+    }
 
     return $message;
   }
