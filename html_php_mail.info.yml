@@ -1,4 +1,4 @@
 name: 'HTML PHP Mail'
 type: module
-description: 'Sends HTML using PHP'
+description: 'Send HTML emails using PHP mailer'
 core: 8.x
